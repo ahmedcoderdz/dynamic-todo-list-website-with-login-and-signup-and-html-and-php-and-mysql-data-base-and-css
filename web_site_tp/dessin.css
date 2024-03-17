@@ -1,0 +1,32 @@
+body{
+    background-color: white;
+}
+form{
+    width: px;
+    height: px;
+    box-shadow: 5px 5px 5px;
+    border-radius: 10px;
+    background-color: aqua;
+    margin:120px;
+    padding: 50px;
+
+}
+.mdf{
+    margin: 3px;
+    width: 200px;
+    height: 25px;
+    border-radius: 6px;
+    border: 0px;
+}
+
+#sub{
+    margin: 0px;
+    background-color:rgb(255, 255, 255);
+    border: 0px;
+    height: 25px;
+    border-radius: 3px;
+
+}
+h2{
+    text-align: center;
+}
