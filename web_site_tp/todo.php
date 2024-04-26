@@ -3,7 +3,9 @@ session_start();
 include("connection.php"); //connecté avec base des données.
 
 if (!isset($_SESSION['email']) || !isset($_SESSION['password'])) { //pour sucurisé, il faut s'inscrir pour entre à ce page.
-    echo "Connectez vous d'abord, svp.";
+    $a = 1;
+    $_SESSION['$a']=$a;
+    header('location: start.php');
 }else{
 $email = $_SESSION['email'];
 
@@ -21,40 +23,56 @@ $insert = "INSERT INTO tache (todo, iduser) VALUES ('$tache', '$id')";
 
 <!doctype html>
 <html>
+
+<link rel="stylesheet" href="core.css">
+
 <head>
 	<title>Task List</title>
-    <button><a href="sortir.php">Se déconnecter</a></button>
+    <button class="deconneter"><a href="sortir.php">Se déconnecter</a></button>
 
 
 </head>
 <body>
 	
 	<header>
+        <div></div>
 		<h1>Task List</h1>
 		<form action="todo.php" method="POST">
 			<input type="text" name="tache" id="new-task-input" placeholder="Saisir votre tâche" >
-			<input type="submit" name="submitA" id="new-task-submit" value="Add task" >
+			<input type="submit" name="submitA" id="new-task-submit" value="Ajouter" >
 		</form>
 	</header>
 	<main>
+        <a href="todo_fin.php"><h2 class="h22">Tasks(Fin)</h2></a>
+                       <h2 class="h22">Tasks(Touts)</h2>
+        <a href="todo_cour.php"><h2 class="h22">Tasks(En cours)</h2></a>
+
+            <hr>
 		<section class="task-list">
-			<h2>Tasks</h2>
 
             <?php 
-            $R = $conect->query("SELECT idtache, todo FROM tache WHERE iduser = '$id' "); //pour affiche les tache d'utilisateur
+            $R = $conect->query("SELECT idtache, todo, cas FROM tache WHERE iduser = '$id' "); //pour affiche les tache d'utilisateur
             while($T = $R->fetch_assoc()){
+                echo '<td>'. $T['todo'].' </td>';
                 
-                echo '<td>'. $T['todo'].' </td>
-                <button><a href="modifier.php?editid='.$T['idtache'].'" >Modifier</a></button>
-                <button><a href="supprimer.php?deletid='.$T['idtache'].'" >Supprimer</a></button><br>';
+                if ($T['cas'] !='done') {
+                    echo '<a href="fait.php?tacheid='.$T['idtache'].'"><button>Fait!</button></a>';
+                }else{ //hna delet 'done' mn base de donée                   
+                     echo '<a href="unfait.php?tacheid='.$T['idtache'].'"><button>Unfait!</button></a>';
+                }
+
+                echo '<br><div class= "buttons">
+                <a href="modifier.php?editid='.$T['idtache'].'"><button>Modifier</button></a>
+                <a href="supprimer.php?deletid='.$T['idtache'].'"><button>Supprimer</button></a><br>
+                </div>';
             }
 
             ?>
 		</section>
 	</main>
-
+    <p class="copy">&copy;ABDESSAMED_AHMED</p>
 </body>
-
+    
 </html>
 
 <?php } ?>
